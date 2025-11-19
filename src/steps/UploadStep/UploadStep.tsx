@@ -6,7 +6,6 @@ import { ExampleTable } from "./components/ExampleTable"
 import { useCallback, useState } from "react"
 import { FadingOverlay } from "./components/FadingOverlay"
 import type { themeOverrides } from "../../theme"
-
 type UploadProps = {
   onContinue: (data: XLSX.WorkBook, file: File) => Promise<void>
 }

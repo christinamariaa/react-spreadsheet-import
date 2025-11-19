@@ -4,6 +4,7 @@ const titleMap: Record<Field<string>["fieldType"]["type"], string> = {
   checkbox: "Boolean",
   select: "Options",
   input: "Text",
+  autocomplete: "search value"
 }
 
 export const generateExampleRow = <T extends string>(fields: Fields<T>) => [

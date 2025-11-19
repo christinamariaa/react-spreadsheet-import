@@ -53,10 +53,10 @@ export type RsiProps<T extends string> = {
 
 export type RawData = Array<string | undefined>
 
-export type Data<T extends string> = { [key in T]: string | boolean | undefined }
+export type Data<T extends string> = { [key in T]: string | boolean | undefined | number }
 
 // Data model RSI uses for spreadsheet imports
-export type Fields<T extends string> = DeepReadonly<Field<T>[]>
+export type Fields<T extends string> = ReadonlyArray<Field<T>>
 
 export type Field<T extends string> = {
   // UI-facing field label
@@ -70,7 +70,7 @@ export type Field<T extends string> = {
   // Validations used for field entries
   validations?: Validation[]
   // Field entry component, default: Input
-  fieldType: Checkbox | Select | Input
+  fieldType: Checkbox | Select | Input | AutocompleteField
   // UI-facing values shown to user as field examples pre-upload phase
   example?: string
 }
@@ -96,6 +96,21 @@ export type SelectOption = {
 
 export type Input = {
   type: "input"
+}
+
+export type AutocompleteField = {
+  type: "autocomplete"
+  searcher: (
+    query: string,
+    limit?: number,
+    offset?: number,
+    id?: number
+  ) => Promise<any[]>
+  formatOption?: (item: any) => string
+  placeholder?: string
+  hasPagination?: boolean
+  pageSize?: number
+  initialOptions?: any[]
 }
 
 export type Validation = RequiredValidation | UniqueValidation | RegexValidation

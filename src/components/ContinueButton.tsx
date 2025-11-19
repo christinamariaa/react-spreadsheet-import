@@ -1,5 +1,11 @@
-import { Button, ModalFooter, useStyleConfig } from "@chakra-ui/react"
+import { Button, ModalFooter, useStyleConfig, Box } from "@chakra-ui/react"
 import { themeOverrides } from "../theme"
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+} from "@chakra-ui/react"
 
 type ContinueButtonProps = {
   onContinue: (val: any) => void
@@ -15,9 +21,18 @@ export const ContinueButton = ({ onContinue, onBack, title, backTitle, isLoading
   return (
     <ModalFooter>
       {onBack && (
-        <Button size="md" sx={styles.backButton} onClick={onBack} isLoading={isLoading} variant="link">
+        <Popover>
+                      <PopoverTrigger>
+                        <Box bg="blue.300" p={2}>Hover me</Box>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <Button size="md" sx={styles.backButton} onClick={onBack} isLoading={isLoading} variant="link">
           {backTitle}
         </Button>
+                      </PopoverContent>
+                    </Popover>
+        
       )}
       <Button
         size="lg"

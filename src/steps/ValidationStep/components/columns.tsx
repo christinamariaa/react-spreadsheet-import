@@ -5,6 +5,7 @@ import type { ChangeEvent } from "react"
 import type { Meta } from "../types"
 import { CgInfo } from "react-icons/cg"
 import { TableSelect } from "../../../components/Selects/TableSelect"
+import { Autocomplete } from "src/components/Fields/Autocomlete/Autocomplete"
 
 const SELECT_COLUMN_KEY = "select-row"
 
@@ -79,6 +80,22 @@ export const generateColumns = <T extends string>(fields: Fields<T>): Column<Dat
               />
             )
             break
+          case "autocomplete":
+            component = (
+              <Box paddingInlineStart="0.5rem">
+                <Autocomplete
+                  searcher={column.fieldType.searcher}
+                  placeholder={column.fieldType.placeholder}
+                  formatOption={column.fieldType.formatOption}
+                  value={row[column.key] as number}
+                  onSelect={(id) => {
+                    onRowChange({ ...row, [column.key]: id }, true)
+                    onClose(true)
+                  }}
+                />
+              </Box>
+            )
+            break
           default:
             component = (
               <Box paddingInlineStart="0.5rem">
@@ -129,6 +146,19 @@ export const generateColumns = <T extends string>(fields: Fields<T>): Column<Dat
             component = (
               <Box minWidth="100%" minHeight="100%" overflow="hidden" textOverflow="ellipsis">
                 {column.fieldType.options.find((option) => option.value === row[column.key as T])?.label || null}
+              </Box>
+            )
+            break
+          case "autocomplete":
+            const selected = column.fieldType.formatOption
+              ? column.fieldType.formatOption(
+                column.fieldType.initialOptions?.find(i => i.id === row[column.key])
+              )
+              : column.fieldType.initialOptions?.find(i => i.id === row[column.key])?.name
+
+            component = (
+              <Box minWidth="100%" minHeight="100%" overflow="hidden" textOverflow="ellipsis">
+                {selected || ""}
               </Box>
             )
             break
